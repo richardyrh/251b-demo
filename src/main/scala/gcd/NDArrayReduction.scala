@@ -60,7 +60,8 @@ class NDArrayReduction(dims: Seq[Int]) extends Module {
       // filter where index at dimension `dim` is equal to `indexInDim`
       val relevantIndices = indices.filter(ii => ii(dim) == indexInDim)
       // for each index path, pick out the element
-      val relevantElements = relevantIndices.map(ii => indexNested(io.tensor, ii))
+      val relevantElements = relevantIndices.map(ii =>
+        indexNested(io.tensor, ii))
       // sum them
       sum := relevantElements.reduce(_ + _)
     }
@@ -71,13 +72,13 @@ class NDArrayReduction(dims: Seq[Int]) extends Module {
 object MatrixReduction extends App {
   println(ChiselStage.emitSystemVerilog(
     new MatrixReduction(8, 16),
-    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info", "-default-layer-specialization=enable")
+    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info")
   ))
 }
 
 object NDArrayReduction extends App {
   println(ChiselStage.emitSystemVerilog(
     new NDArrayReduction(Seq(8, 16, 32)),
-    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info", "-default-layer-specialization=enable")
+    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info")
   ))
 }

@@ -16,7 +16,6 @@ abstract class CanDP[T](val v: T) {
 }
 
 object DPTypes {
-  implicit def unboxDPType[T](node: CanDP[T]): T = node.v
 
   implicit class UIntDP(val x: UInt) extends CanDP[UInt](x) {
     override def mul(other: UInt): UInt = x * other
@@ -60,7 +59,10 @@ object DPTypes {
 }
 
 
-class GenericDotProductUnit[T <: Data, U <: CanDP[T]](dataT: T, n: Int)(implicit val cast: T => U) extends Module {
+class GenericDotProductUnit[T <: Data, U <: CanDP[T]]
+    (dataT: T, n: Int)
+    (implicit val cast: T => U) extends Module {
+
   val io = IO(new Bundle {
     val a = Input(Vec(n, dataT))
     val b = Input(Vec(n, dataT))
@@ -77,7 +79,7 @@ class GenericDotProductUnit[T <: Data, U <: CanDP[T]](dataT: T, n: Int)(implicit
 object GenericDotProductUnit extends App {
   val verilog = ChiselStage.emitSystemVerilog(
     new GenericDotProductUnit(UInt(32.W), 8),
-    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info", "-default-layer-specialization=enable")
+    firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info")
   )
   println(verilog)
 }
