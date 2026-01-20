@@ -16,7 +16,7 @@ import mill.bsp._
 object `251b-demo` extends SbtModule { m =>
   override def millSourcePath = super.millSourcePath / os.up
   override def scalaVersion = "2.13.16"
-  def chiselVersion = "7.0.0"
+  def chiselVersion = "7.7.0"
   override def scalacOptions = Seq(
     "-language:reflectiveCalls",
     "-deprecation",
